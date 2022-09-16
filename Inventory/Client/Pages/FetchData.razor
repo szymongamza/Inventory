@@ -8,7 +8,7 @@
 
 <p>This component demonstrates fetching data from the server.</p>
 
-@if (forecasts == null)
+@if (devices == null)
 {
     <p><em>Loading...</em></p>
 }
@@ -17,20 +17,16 @@ else
     <table class="table">
         <thead>
             <tr>
-                <th>Date</th>
-                <th>Temp. (C)</th>
-                <th>Temp. (F)</th>
-                <th>Summary</th>
+                <th>Manu</th>
+                <th>Model</th>
             </tr>
         </thead>
         <tbody>
-            @foreach (var forecast in forecasts)
+            @foreach (var device in devices)
             {
                 <tr>
-                    <td>@forecast.Date.ToShortDateString()</td>
-                    <td>@forecast.TemperatureC</td>
-                    <td>@forecast.TemperatureF</td>
-                    <td>@forecast.Summary</td>
+                    <td>@device.Manufacturer</td>
+                    <td>@device.Model</td>
                 </tr>
             }
         </tbody>
@@ -38,10 +34,10 @@ else
 }
 
 @code {
-    private WeatherForecast[]? forecasts;
+    private List<Device>? devices;
 
     protected override async Task OnInitializedAsync()
     {
-        forecasts = await Http.GetFromJsonAsync<WeatherForecast[]>("WeatherForecast");
+        devices = await Http.GetFromJsonAsync<List<Device>>("Devices");
     }
 }

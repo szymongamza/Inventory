@@ -36,7 +36,20 @@ namespace Inventory.Server.Controllers
             }
             else
             {
-                return NotFound();
+                return NotFound(result);
+            }
+        }
+        [HttpPut("{deviceId}")]
+        public async Task<ActionResult<ServiceResponse<Device>>> PutDevice(int deviceId, [FromBody]Device device)
+        {
+            var result = await _deviceService.PutDevice(deviceId, device);
+            if (result.Success == true)
+            {
+                return Ok(result);
+            }
+            else
+            {
+                return NotFound(result);
             }
         }
         [HttpPost]

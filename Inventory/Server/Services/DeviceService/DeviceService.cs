@@ -35,6 +35,27 @@ namespace Inventory.Server.Services.DeviceService
             }
             return response;
         }
+        public async Task<ServiceResponse<Device>> PutDevice(int deviceId, Device deviceIn)
+        {
+            var response = new ServiceResponse<Device>();
+            Device device = null;
+            device = await _context.Devices.FirstOrDefaultAsync(d => d.Id == deviceId);
+            if (device == null)
+            {
+                response.Success = false;
+                response.Message = "This device does not exist.";
+            }
+            else
+            {
+                device.Manufacturer = deviceIn.Manufacturer;
+                device.SerialNumber = deviceIn.SerialNumber;
+                device.Model = deviceIn.Model;
+                await _context.SaveChangesAsync();
+                response.Data = device;
+
+            }
+            return response;
+        }
 
         public async Task<ServiceResponse<Device>> GetDevice(int deviceId)
         {
@@ -55,10 +76,10 @@ namespace Inventory.Server.Services.DeviceService
 
         public async Task<ServiceResponse<List<Device>>> GetDevices()
         {
-            var response = new ServiceResponse<List<Device>>
-            {
-                Data = await _context.Devices.ToListAsync(),
-            };
+            var response = new ServiceResponse<List<Device>>();
+
+            response.Data = await _context.Devices.ToListAsync();
+            
             return response;
         }
     }

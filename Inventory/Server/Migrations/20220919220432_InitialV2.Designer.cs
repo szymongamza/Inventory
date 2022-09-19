@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Inventory.Server.Migrations
 {
     [DbContext(typeof(DataContext))]
-    [Migration("20220919142849_Initial")]
-    partial class Initial
+    [Migration("20220919220432_InitialV2")]
+    partial class InitialV2
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -94,6 +94,10 @@ namespace Inventory.Server.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<string>("QrCode")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<int>("RoomId")
                         .HasColumnType("int");
 
@@ -158,7 +162,7 @@ namespace Inventory.Server.Migrations
             modelBuilder.Entity("Inventory.Server.Models.Device", b =>
                 {
                     b.HasOne("Inventory.Server.Models.Room", "Room")
-                        .WithMany()
+                        .WithMany("Devices")
                         .HasForeignKey("RoomId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -168,18 +172,23 @@ namespace Inventory.Server.Migrations
 
             modelBuilder.Entity("Inventory.Server.Models.Room", b =>
                 {
-                    b.HasOne("Inventory.Server.Models.Department", "department")
+                    b.HasOne("Inventory.Server.Models.Department", "Department")
                         .WithMany("Rooms")
                         .HasForeignKey("DepartmentId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.Navigation("department");
+                    b.Navigation("Department");
                 });
 
             modelBuilder.Entity("Inventory.Server.Models.Department", b =>
                 {
                     b.Navigation("Rooms");
+                });
+
+            modelBuilder.Entity("Inventory.Server.Models.Room", b =>
+                {
+                    b.Navigation("Devices");
                 });
 #pragma warning restore 612, 618
         }

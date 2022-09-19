@@ -12,8 +12,8 @@ namespace Inventory.Server.Models
         public string City { get; set; } = string.Empty;
         public string Street { get; set; } = string.Empty;
         public string StreetNumber { get; set; } = string.Empty;
-        [SwaggerSchema(ReadOnly = true)]
-        public List<Room>? Rooms { get; set; }
+
+        public ICollection<Room>? Rooms { get; set; }
 
         [SwaggerSchema(ReadOnly = true)]
         public DateTime CreatedDate { get; set; }

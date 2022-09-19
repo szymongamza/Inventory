@@ -9,10 +9,15 @@ namespace Inventory.Server.Models
         [Required]
         public string Manufacturer { get; set; } = string.Empty;
         public string Model { get; set; } = string.Empty;
-
         public string SerialNumber { get; set; } = string.Empty;
+
+
+        public int RoomId { get; set; }
         public Room Room { get; set; }
 
+
+        [SwaggerSchema(ReadOnly = true)]
+        public string QrCode { get; set; } = Guid.NewGuid().ToString();
         [SwaggerSchema(ReadOnly = true)]
         public DateTime CreatedDate { get; set; }
 

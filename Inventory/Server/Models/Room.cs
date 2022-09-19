@@ -4,12 +4,15 @@ namespace Inventory.Server.Models
 {
     public class Room : IEntity
     {
+        [SwaggerSchema(ReadOnly = true)]
         public int RoomId { get; set; }
         public string RoomNumber { get; set; } = string.Empty;
         public string Floor { get; set; } = string.Empty;
+
         public int DepartmentId { get; set; }
-        [Required]
-        public Department department { get; set; }
+        public Department Department { get; set; }
+        public ICollection<Device>? Devices { get; set; }
+
 
         [SwaggerSchema(ReadOnly = true)]
         public DateTime CreatedDate { get; set; }

@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace Inventory.Server.Migrations
 {
-    public partial class Initial : Migration
+    public partial class InitialV2 : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -65,6 +65,7 @@ namespace Inventory.Server.Migrations
                     Model = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     SerialNumber = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     RoomId = table.Column<int>(type: "int", nullable: false),
+                    QrCode = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     CreatedDate = table.Column<DateTime>(type: "datetime2", nullable: false),
                     CreatedBy = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     UpdatedDate = table.Column<DateTime>(type: "datetime2", nullable: false),

@@ -6,7 +6,7 @@ using Inventory.Server.Data;
 using Inventory.Server.Services.DeviceService;
 using Inventory.Server.Services.DepartmentService;
 using Microsoft.AspNetCore.ResponseCompression;
-
+using Inventory.Server.Services.RoomService;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -29,6 +29,7 @@ builder.Services.AddSwaggerGen(c =>
 
 builder.Services.AddScoped<IDeviceService, DeviceService>();
 builder.Services.AddScoped<IDepartmentService, DepartmentService>();
+builder.Services.AddScoped<IRoomService, RoomService>();
 
 
 var app = builder.Build();

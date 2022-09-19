@@ -1,4 +1,7 @@
 global using Microsoft.EntityFrameworkCore;
+global using  Swashbuckle.AspNetCore.Annotations;
+global using System.ComponentModel.DataAnnotations;
+global using Inventory.Server.Models;
 using Inventory.Server.Data;
 using Inventory.Server.Services.DeviceService;
 using Microsoft.AspNetCore.ResponseCompression;

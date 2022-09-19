@@ -1,17 +1,15 @@
-using Inventory.Shared;
+﻿using Inventory.Shared;
 
 namespace Inventory.Server.Models
 {
-    public class Device:IEntity
+    public class Room: IEntity
     {
-        [SwaggerSchema(ReadOnly = true)]
-        public int DeviceId { get; set; }
+        public int RoomId { get; set; }
+        public string RoomNumber { get; set; } = string.Empty;
+        public string Floor { get; set; } = string.Empty;
+        public int DepartmentId { get; set; }   
         [Required]
-        public string Manufacturer { get; set; } = string.Empty;
-        public string Model { get; set; } = string.Empty;
-
-        public string SerialNumber { get; set; } = string.Empty;
-        public Room Room { get; set; }
+        public Department department { get; set; }
 
         [SwaggerSchema(ReadOnly = true)]
         public DateTime CreatedDate { get; set; }
@@ -25,5 +23,4 @@ namespace Inventory.Server.Models
         [SwaggerSchema(ReadOnly = true)]
         public string UpdatedBy { get; set; } = string.Empty;
     }
-
 }

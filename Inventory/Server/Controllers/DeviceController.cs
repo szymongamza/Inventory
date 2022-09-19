@@ -26,11 +26,32 @@ namespace Inventory.Server.Controllers
             var result = await _deviceService.GetDevice(deviceId);
             return Ok(result);
         }
+        [HttpDelete("{deviceId}")]
+        public async Task<ActionResult<ServiceResponse<Device>>> DeleteDevice(int deviceId)
+        {
+            var result = await _deviceService.DeleteDevice(deviceId);
+            if (result.Success == true)
+            {
+                return Ok(result);
+            }
+            else
+            {
+                return NotFound();
+            }
+        }
         [HttpPost]
         public async Task<ActionResult<ServiceResponse<Device>>> CreateDevice(Device device)
         {
             var result = await _deviceService.CreateDevice(device);
-            return Ok(result);
+            if (result.Success == true)
+            {
+                return Ok(result);
+            }
+            else
+            {
+                return NotFound(result);
+            }
+
         }
     }
 }

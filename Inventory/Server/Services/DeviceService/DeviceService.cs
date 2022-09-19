@@ -17,6 +17,24 @@ namespace Inventory.Server.Services.DeviceService
             await _context.SaveChangesAsync();
             return new ServiceResponse<Device> { Data = device };
         }
+        public async Task<ServiceResponse<Device>> DeleteDevice(int deviceId)
+        {
+            var response = new ServiceResponse<Device>();
+            Device device = null;
+            device = await _context.Devices.FirstOrDefaultAsync(d => d.Id == deviceId);
+            if (device == null)
+            {
+                response.Success = false;
+                response.Message = "This device does not exist.";
+            }
+            else
+            {
+                _context.Devices.Remove(device);
+                await _context.SaveChangesAsync();
+
+            }
+            return response;
+        }
 
         public async Task<ServiceResponse<Device>> GetDevice(int deviceId)
         {

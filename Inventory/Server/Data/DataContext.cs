@@ -36,7 +36,7 @@ namespace Inventory.Server.Data
             }
             return base.SaveChangesAsync();
         }
-        public DbSet<Device> Devices { get; set; } 
+        public DbSet<Device> Devices { get; set; }
         public DbSet<Department> Departments { get; set; }
         public DbSet<Room> Rooms { get; set; }
     }

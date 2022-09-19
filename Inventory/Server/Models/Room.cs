@@ -2,12 +2,12 @@
 
 namespace Inventory.Server.Models
 {
-    public class Room: IEntity
+    public class Room : IEntity
     {
         public int RoomId { get; set; }
         public string RoomNumber { get; set; } = string.Empty;
         public string Floor { get; set; } = string.Empty;
-        public int DepartmentId { get; set; }   
+        public int DepartmentId { get; set; }
         [Required]
         public Department department { get; set; }
 

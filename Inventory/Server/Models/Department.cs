@@ -2,14 +2,17 @@
 
 namespace Inventory.Server.Models
 {
-    public class Department:IEntity
+    public class Department : IEntity
     {
+        [SwaggerSchema(ReadOnly = true)]
         public int DepartmentId { get; set; }
+        [Required]
         public string Name { get; set; } = string.Empty;
         public string BuildingNumber { get; set; } = string.Empty;
         public string City { get; set; } = string.Empty;
         public string Street { get; set; } = string.Empty;
         public string StreetNumber { get; set; } = string.Empty;
+        [SwaggerSchema(ReadOnly = true)]
         public List<Room>? Rooms { get; set; }
 
         [SwaggerSchema(ReadOnly = true)]

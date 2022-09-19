@@ -1,9 +1,10 @@
 global using Microsoft.EntityFrameworkCore;
-global using  Swashbuckle.AspNetCore.Annotations;
+global using Swashbuckle.AspNetCore.Annotations;
 global using System.ComponentModel.DataAnnotations;
 global using Inventory.Server.Models;
 using Inventory.Server.Data;
 using Inventory.Server.Services.DeviceService;
+using Inventory.Server.Services.DepartmentService;
 using Microsoft.AspNetCore.ResponseCompression;
 
 
@@ -27,6 +28,7 @@ builder.Services.AddSwaggerGen(c =>
 });
 
 builder.Services.AddScoped<IDeviceService, DeviceService>();
+builder.Services.AddScoped<IDepartmentService, DepartmentService>();
 
 
 var app = builder.Build();

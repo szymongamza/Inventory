@@ -62,7 +62,7 @@ namespace Inventory.Server.Services.DeviceService
             var response = new ServiceResponse<Device>();
             Device device = null;
             device = await _context.Devices.FirstOrDefaultAsync(d => d.DeviceId == deviceId);
-            if(device == null)
+            if (device == null)
             {
                 response.Success = false;
                 response.Message = "This device does not exist.";
@@ -79,7 +79,7 @@ namespace Inventory.Server.Services.DeviceService
             var response = new ServiceResponse<List<Device>>();
 
             response.Data = await _context.Devices.ToListAsync();
-            
+
             return response;
         }
     }

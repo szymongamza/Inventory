@@ -2,7 +2,7 @@ using Inventory.Shared;
 
 namespace Inventory.Server.Models
 {
-    public class Device:IEntity
+    public class Device : IEntity
     {
         [SwaggerSchema(ReadOnly = true)]
         public int DeviceId { get; set; }

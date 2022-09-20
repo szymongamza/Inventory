@@ -22,7 +22,7 @@ namespace Inventory.Server.Controllers
 
         // GET: api/Department
         [HttpGet]
-        public async Task<ActionResult<ServiceResponse<List<DepartmentResource>>>> GetDepartments()
+        public async Task<ActionResult<ServiceResponse<List<DepartmentResource>>>> GetAllAsync()
         {
             if (!ModelState.IsValid)
                 return BadRequest(ModelState.GetErrorMessages());
@@ -35,7 +35,7 @@ namespace Inventory.Server.Controllers
 
         // GET api/Department/5
         [HttpGet("{departmentId}")]
-        public async Task<ActionResult<ServiceResponse<DepartmentResource>>> GetDepartment(int departmentId)
+        public async Task<ActionResult<ServiceResponse<DepartmentResource>>> GetAsync(int departmentId)
         {
             if (!ModelState.IsValid)
                 return BadRequest(ModelState.GetErrorMessages());
@@ -48,7 +48,7 @@ namespace Inventory.Server.Controllers
 
         // POST api/Department
         [HttpPost]
-        public async Task<ActionResult<ServiceResponse<DepartmentResource>>> CreateDepartment([FromBody] SaveDepartmentResource resource)
+        public async Task<ActionResult<ServiceResponse<DepartmentResource>>> PostAsync([FromBody] SaveDepartmentResource resource)
         {
             if (!ModelState.IsValid)
                 return BadRequest(ModelState.GetErrorMessages());
@@ -62,7 +62,7 @@ namespace Inventory.Server.Controllers
 
         // PUT api/Department/5
         [HttpPut("{departmentId}")]
-        public async Task<ActionResult<ServiceResponse<DepartmentResource>>> PutDepartment(int departmentId, [FromBody] SaveDepartmentResource resource)
+        public async Task<ActionResult<ServiceResponse<DepartmentResource>>> PutAsync(int departmentId, [FromBody] SaveDepartmentResource resource)
         {
             if (!ModelState.IsValid)
                 return BadRequest(ModelState.GetErrorMessages());
@@ -76,7 +76,7 @@ namespace Inventory.Server.Controllers
 
         // DELETE api/Department/5
         [HttpDelete("{departmentId}")]
-        public async Task<ActionResult<ServiceResponse<DepartmentResource>>> DeleteDepartment(int departmentId)
+        public async Task<ActionResult<ServiceResponse<DepartmentResource>>> DeleteAsync(int departmentId)
         {
             if (!ModelState.IsValid)
                 return BadRequest(ModelState.GetErrorMessages());

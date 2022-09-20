@@ -11,79 +11,70 @@ namespace Inventory.Server.Services.DepartmentService
             _context = context;
         }
 
-        public async Task<ServiceResponse<Department>> CreateDepartment(Department department)
+        public async Task<ServiceResponse<Department>> AddAsync(Department department)
         {
-            _context.Departments.Add(department);
-            await _context.SaveChangesAsync();
-            return new ServiceResponse<Department> { Data = department };
-        }
-        public async Task<ServiceResponse<Department>> DeleteDepartment(int departmentId)
-        {
-            var response = new ServiceResponse<Department>();
-            Department department = null;
-            department = await _context.Departments.FirstOrDefaultAsync(d => d.DepartmentId == departmentId);
-            if (department == null)
+            try
             {
-                response.Success = false;
-                response.Message = "This department does not exist.";
-            }
-            else
-            {
-                _context.Departments.Remove(department);
+                _context.Departments.Add(department);
                 await _context.SaveChangesAsync();
-
+                return new ServiceResponse<Department> { Data = department };
             }
-            return response;
+            catch (Exception ex)
+            {
+                return new ServiceResponse<Department> { Message = ex.Message, Success = false };
+            }
         }
-        public async Task<ServiceResponse<Department>> PutDepartment(int departmentId, Department departmentIn)
+        public async Task<ServiceResponse<Department>> DeleteAsync(int departmentId)
         {
-            var response = new ServiceResponse<Department>();
-            Department department = null;
-            department = await _context.Departments.FirstOrDefaultAsync(d => d.DepartmentId == departmentId);
-            if (department == null)
+            var existingDepartment = await _context.Departments.FirstOrDefaultAsync(d => d.DepartmentId == departmentId);
+            if (existingDepartment == null)
+                return new ServiceResponse<Department> { Message = "Department not found", Success = false };
+            try
             {
-                response.Success = false;
-                response.Message = "This department does not exist.";
-            }
-            else
-            {
-                department.Name = departmentIn.Name;
-                department.BuildingNumber = departmentIn.BuildingNumber;
-                department.Rooms = departmentIn.Rooms;
-                department.Street = departmentIn.Street;
-                department.City = departmentIn.City;
-                department.StreetNumber = departmentIn.StreetNumber;
+                _context.Departments.Remove(existingDepartment);
                 await _context.SaveChangesAsync();
-                response.Data = department;
-
+                return new ServiceResponse<Department> { Data = existingDepartment };
             }
-            return response;
+            catch(Exception ex)
+            {
+                return new ServiceResponse<Department> { Message=ex.Message, Success = false };
+            }
+        }
+        public async Task<ServiceResponse<Department>> UpdateAsync(int departmentId, Department departmentIn)
+        {
+            var existingDepartment = await _context.Departments.FirstOrDefaultAsync(d => d.DepartmentId == departmentId);
+            if (existingDepartment == null)
+                return new ServiceResponse<Department> { Message = "Department not found", Success = false };
+            existingDepartment.Name = departmentIn.Name;
+            existingDepartment.BuildingNumber = departmentIn.BuildingNumber;
+            existingDepartment.Rooms = departmentIn.Rooms;
+            existingDepartment.Street = departmentIn.Street;
+            existingDepartment.City = departmentIn.City;
+            existingDepartment.StreetNumber = departmentIn.StreetNumber;
+            try
+            {
+                _context.Departments.Update(existingDepartment);
+                await _context.SaveChangesAsync();
+                return new ServiceResponse<Department> { Data = existingDepartment};
+            }
+            catch(Exception ex)
+            {
+                return new ServiceResponse<Department> { Message = ex.Message, Success = false };
+            }
         }
 
-        public async Task<ServiceResponse<Department>> GetDepartment(int departmentId)
+        public async Task<ServiceResponse<Department>> FindByIdAsync(int departmentId)
         {
-            var response = new ServiceResponse<Department>();
-            Department department = null;
-            department = await _context.Departments.FirstOrDefaultAsync(d => d.DepartmentId == departmentId);
-            if (department == null)
-            {
-                response.Success = false;
-                response.Message = "This department does not exist.";
-            }
-            else
-            {
-                response.Data = department;
-            }
-            return response;
+            var existingDepartment = await _context.Departments.FirstOrDefaultAsync(d => d.DepartmentId == departmentId);
+            if (existingDepartment == null)
+                return new ServiceResponse<Department> { Message = "Department not found", Success = false };
+            return new ServiceResponse<Department> { Data = existingDepartment };
         }
 
-        public async Task<ServiceResponse<List<Department>>> GetDepartments()
+        public async Task<ServiceResponse<List<Department>>> ListAsync()
         {
-            var response = new ServiceResponse<List<Department>>();
-
-            response.Data = await _context.Departments.ToListAsync();
-
-            return response;
+            var departments = await _context.Departments.ToListAsync();
+            return new ServiceResponse<List<Department>> { Data = departments };
         }
     }
 }

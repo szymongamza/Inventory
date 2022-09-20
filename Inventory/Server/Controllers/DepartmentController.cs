@@ -26,7 +26,7 @@ namespace Inventory.Server.Controllers
         {
             if (!ModelState.IsValid)
                 return BadRequest(ModelState.GetErrorMessages());
-            var result = await _departmentService.GetDepartments();
+            var result = await _departmentService.ListAsync();
             if (!result.Success)
                 return BadRequest(result.Message);
             var newResult = _mapper.Map<ServiceResponse<List<Department>>, ServiceResponse<List<DepartmentResource>>>(result);
@@ -39,7 +39,7 @@ namespace Inventory.Server.Controllers
         {
             if (!ModelState.IsValid)
                 return BadRequest(ModelState.GetErrorMessages());
-            var result = await _departmentService.GetDepartment(departmentId);
+            var result = await _departmentService.FindByIdAsync(departmentId);
             if (!result.Success)
                 return BadRequest(result.Message);
             var newResult = _mapper.Map<ServiceResponse<Department>, ServiceResponse<DepartmentResource>>(result);
@@ -53,7 +53,7 @@ namespace Inventory.Server.Controllers
             if (!ModelState.IsValid)
                 return BadRequest(ModelState.GetErrorMessages());
             var department = _mapper.Map<SaveDepartmentResource, Department>(resource);
-            var result = await _departmentService.CreateDepartment(department);
+            var result = await _departmentService.AddAsync(department);
             if (!result.Success)
                 return BadRequest(result.Message);
             var newResult = _mapper.Map<ServiceResponse<Department>, ServiceResponse<DepartmentResource>>(result);
@@ -67,7 +67,7 @@ namespace Inventory.Server.Controllers
             if (!ModelState.IsValid)
                 return BadRequest(ModelState.GetErrorMessages());
             var department = _mapper.Map<SaveDepartmentResource, Department>(resource);
-            var result = await _departmentService.PutDepartment(departmentId, department);
+            var result = await _departmentService.UpdateAsync(departmentId, department);
             if (!result.Success)
                 return BadRequest(result.Message);
             var newResult = _mapper.Map<ServiceResponse<Department>, ServiceResponse<DepartmentResource>>(result);
@@ -80,7 +80,7 @@ namespace Inventory.Server.Controllers
         {
             if (!ModelState.IsValid)
                 return BadRequest(ModelState.GetErrorMessages());
-            var result = await _departmentService.DeleteDepartment(departmentId);
+            var result = await _departmentService.DeleteAsync(departmentId);
             if (!result.Success)
                 return BadRequest(result.Message);
             var newResult = _mapper.Map<ServiceResponse<Department>, ServiceResponse<DepartmentResource>>(result);

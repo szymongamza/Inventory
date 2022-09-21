@@ -11,76 +11,66 @@ namespace Inventory.Server.Services.RoomService
             _context = context;
         }
 
-        public async Task<ServiceResponse<Room>> CreateRoom(Room room)
+        public async Task<ServiceResponse<Room>> AddAsync(Room room)
         {
-            _context.Rooms.Add(room);
-            await _context.SaveChangesAsync();
-            return new ServiceResponse<Room> { Data = room };
-        }
-        public async Task<ServiceResponse<Room>> DeleteRoom(int roomId)
-        {
-            var response = new ServiceResponse<Room>();
-            Room room = null;
-            room = await _context.Rooms.FirstOrDefaultAsync(d => d.RoomId == roomId);
-            if (room == null)
+            try
             {
-                response.Success = false;
-                response.Message = "This room does not exist.";
-            }
-            else
-            {
-                _context.Rooms.Remove(room);
+                _context.Rooms.Add(room);
                 await _context.SaveChangesAsync();
-
+                return new ServiceResponse<Room> { Data = room };
             }
-            return response;
+            catch (Exception ex)
+            {
+                return new ServiceResponse<Room> { Message = ex.Message, Success = false };
+            }
         }
-        public async Task<ServiceResponse<Room>> PutRoom(int roomId, Room roomIn)
+        public async Task<ServiceResponse<Room>> DeleteAsync(int roomId)
         {
-            var response = new ServiceResponse<Room>();
-            Room room = null;
-            room = await _context.Rooms.FirstOrDefaultAsync(d => d.RoomId == roomId);
-            if (room == null)
+            var existingRoom = await _context.Rooms.FirstOrDefaultAsync(d => d.RoomId == roomId);
+            if (existingRoom == null)
+                return new ServiceResponse<Room> { Message = "Room not found", Success = false };
+            try
             {
-                response.Success = false;
-                response.Message = "This room does not exist.";
-            }
-            else
-            {
-                room.Floor = roomIn.Floor;
-                room.RoomNumber = roomIn.RoomNumber;
-                room.Department = roomIn.Department;
+                _context.Rooms.Remove(existingRoom);
                 await _context.SaveChangesAsync();
-                response.Data = room;
-
+                return new ServiceResponse<Room> { Data = existingRoom };
             }
-            return response;
+            catch (Exception ex)
+            {
+                return new ServiceResponse<Room> { Message = ex.Message, Success = false };
+            }
+        }
+        public async Task<ServiceResponse<Room>> UpdateAsync(int roomId, Room roomIn)
+        {
+            var existingRoom = await _context.Rooms.FirstOrDefaultAsync(d => d.RoomId == roomId);
+            if (existingRoom == null)
+                return new ServiceResponse<Room> { Message = "Room not found", Success = false };
+            existingRoom.RoomNumber = roomIn.RoomNumber;
+            existingRoom.Floor = roomIn.Floor;
+            try
+            {
+                _context.Rooms.Update(existingRoom);
+                await _context.SaveChangesAsync();
+                return new ServiceResponse<Room> { Data = existingRoom };
+            }
+            catch (Exception ex)
+            {
+                return new ServiceResponse<Room> { Message = ex.Message, Success = false };
+            }
         }
 
-        public async Task<ServiceResponse<Room>> GetRoom(int roomId)
+        public async Task<ServiceResponse<Room>> FindByIdAsync(int roomId)
         {
-            var response = new ServiceResponse<Room>();
-            Room room = null;
-            room = await _context.Rooms.FirstOrDefaultAsync(d => d.RoomId == roomId);
-            if (room == null)
-            {
-                response.Success = false;
-                response.Message = "This room does not exist.";
-            }
-            else
-            {
-                response.Data = room;
-            }
-            return response;
+            var existingRoom = await _context.Rooms.FirstOrDefaultAsync(d => d.RoomId == roomId);
+            if (existingRoom == null)
+                return new ServiceResponse<Room> { Message = "Room not found", Success = false };
+            return new ServiceResponse<Room> { Data = existingRoom };
         }
 
-        public async Task<ServiceResponse<List<Room>>> GetRooms()
+        public async Task<ServiceResponse<List<Room>>> ListAsync()
         {
-            var response = new ServiceResponse<List<Room>>();
-
-            response.Data = await _context.Rooms.ToListAsync();
-
-            return response;
+            var rooms = await _context.Rooms.ToListAsync();
+            return new ServiceResponse<List<Room>> { Data = rooms };
         }
     }
 }

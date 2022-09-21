@@ -8,6 +8,7 @@ namespace Inventory.Server.Mapping
         public ResourceToModelProfile()
         {
             CreateMap<SaveDepartmentResource, Department>();
+            CreateMap<SaveRoomResource, Room>();
         }
     }
 }

@@ -35,6 +35,18 @@ namespace Inventory.Server.Controllers
             return Ok(newResult);
         }
 
+        [HttpGet("{departmentId?}")]
+        public async Task<ActionResult<ServiceResponse<RoomResource>>> GetAsyncByDepartmentId(int? departmentId)
+        {
+            if (!ModelState.IsValid)
+                return BadRequest(ModelState.GetErrorMessages());
+            var result = await _roomService.FindAllByDepartmentId(departmentId);
+            if (!result.Success)
+                return BadRequest(result.Message);
+            var newResult = _mapper.Map<ServiceResponse<List<Room>>, ServiceResponse<List<RoomResource>>>(result);
+            return Ok(newResult);
+        }
+
         // GET api/Room/5
         [HttpGet("{roomId}")]
         public async Task<ActionResult<ServiceResponse<RoomResource>>> GetAsync(int roomId)

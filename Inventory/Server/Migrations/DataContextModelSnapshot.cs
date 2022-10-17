@@ -96,7 +96,7 @@ namespace Inventory.Server.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("RoomId")
+                    b.Property<int?>("RoomId")
                         .HasColumnType("int");
 
                     b.Property<string>("SerialNumber")
@@ -161,9 +161,7 @@ namespace Inventory.Server.Migrations
                 {
                     b.HasOne("Inventory.Server.Models.Room", "Room")
                         .WithMany("Devices")
-                        .HasForeignKey("RoomId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("RoomId");
 
                     b.Navigation("Room");
                 });

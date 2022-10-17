@@ -8,6 +8,7 @@ namespace Inventory.Server.Services.RoomService
         Task<ServiceResponse<Room>> DeleteAsync(int roomId);
         Task<ServiceResponse<Room>> UpdateAsync(int roomId, Room roomIn);
         Task<ServiceResponse<Room>> FindByIdAsync(int roomId);
+        Task<ServiceResponse<List<Room>>> FindAllByDepartmentId(int departmentId);
         Task<ServiceResponse<List<Room>>> ListAsync();
     }
 }

@@ -74,6 +74,14 @@ namespace Inventory.Server.Services.RoomService
             return new ServiceResponse<Room> { Data = existingRoom };
         }
 
+        public async Task<ServiceResponse<List<Room>>> FindAllByDepartmentId(int departmentId)
+        {
+            var existingRoom = await _context.Rooms.Where(d => d.DepartmentId == departmentId).ToListAsync();
+            if (existingRoom == null)
+                return new ServiceResponse<List<Room>> { Message = "Room not found", Success = false };
+            return new ServiceResponse<List<Room>> { Data = existingRoom };
+        }
+
         public async Task<ServiceResponse<List<Room>>> ListAsync()
         {
             var rooms = await _context.Rooms.ToListAsync();

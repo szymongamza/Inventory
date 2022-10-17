@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Inventory.Server.Migrations
 {
     [DbContext(typeof(DataContext))]
-    [Migration("20220919220432_InitialV2")]
-    partial class InitialV2
+    [Migration("20221017194901_test")]
+    partial class test
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -98,7 +98,7 @@ namespace Inventory.Server.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("RoomId")
+                    b.Property<int?>("RoomId")
                         .HasColumnType("int");
 
                     b.Property<string>("SerialNumber")
@@ -163,9 +163,7 @@ namespace Inventory.Server.Migrations
                 {
                     b.HasOne("Inventory.Server.Models.Room", "Room")
                         .WithMany("Devices")
-                        .HasForeignKey("RoomId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("RoomId");
 
                     b.Navigation("Room");
                 });

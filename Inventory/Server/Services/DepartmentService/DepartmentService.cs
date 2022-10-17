@@ -21,6 +21,8 @@ namespace Inventory.Server.Services.DepartmentService
             }
             catch (Exception ex)
             {
+                if(ex.InnerException != null)
+                    return new ServiceResponse<Department> { Message = ex.InnerException.Message, Success = false };
                 return new ServiceResponse<Department> { Message = ex.Message, Success = false };
             }
         }
@@ -37,7 +39,9 @@ namespace Inventory.Server.Services.DepartmentService
             }
             catch(Exception ex)
             {
-                return new ServiceResponse<Department> { Message=ex.Message, Success = false };
+                if (ex.InnerException != null)
+                    return new ServiceResponse<Department> { Message = ex.InnerException.Message, Success = false };
+                return new ServiceResponse<Department> { Message = ex.Message, Success = false };
             }
         }
         public async Task<ServiceResponse<Department>> UpdateAsync(int departmentId, Department departmentIn)
@@ -59,6 +63,8 @@ namespace Inventory.Server.Services.DepartmentService
             }
             catch(Exception ex)
             {
+                if (ex.InnerException != null)
+                    return new ServiceResponse<Department> { Message = ex.InnerException.Message, Success = false };
                 return new ServiceResponse<Department> { Message = ex.Message, Success = false };
             }
         }

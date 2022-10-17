@@ -15,12 +15,15 @@ namespace Inventory.Server.Services.RoomService
         {
             try
             {
+                Console.WriteLine("DEBUG");
                 _context.Rooms.Add(room);
                 await _context.SaveChangesAsync();
                 return new ServiceResponse<Room> { Data = room };
             }
             catch (Exception ex)
             {
+                if(ex.InnerException != null)
+                    return new ServiceResponse<Room> { Message = ex.InnerException.Message, Success = false };
                 return new ServiceResponse<Room> { Message = ex.Message, Success = false };
             }
         }
@@ -37,6 +40,8 @@ namespace Inventory.Server.Services.RoomService
             }
             catch (Exception ex)
             {
+                if (ex.InnerException != null)
+                    return new ServiceResponse<Room> { Message = ex.InnerException.Message, Success = false };
                 return new ServiceResponse<Room> { Message = ex.Message, Success = false };
             }
         }
@@ -55,6 +60,8 @@ namespace Inventory.Server.Services.RoomService
             }
             catch (Exception ex)
             {
+                if (ex.InnerException != null)
+                    return new ServiceResponse<Room> { Message = ex.InnerException.Message, Success = false };
                 return new ServiceResponse<Room> { Message = ex.Message, Success = false };
             }
         }

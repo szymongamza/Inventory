@@ -21,6 +21,8 @@ namespace Inventory.Server.Services.DeviceService
             }
             catch (Exception ex)
             {
+                if(ex.InnerException != null)
+                    return new ServiceResponse<Device> { Message = ex.InnerException.Message, Success = false };
                 return new ServiceResponse<Device> { Message = ex.Message, Success = false };
             }
         }
@@ -37,6 +39,8 @@ namespace Inventory.Server.Services.DeviceService
             }
             catch (Exception ex)
             {
+                if (ex.InnerException != null)
+                    return new ServiceResponse<Device> { Message = ex.InnerException.Message, Success = false };
                 return new ServiceResponse<Device> { Message = ex.Message, Success = false };
             }
         }
@@ -57,6 +61,8 @@ namespace Inventory.Server.Services.DeviceService
             }
             catch (Exception ex)
             {
+                if (ex.InnerException != null)
+                    return new ServiceResponse<Device> { Message = ex.InnerException.Message, Success = false };
                 return new ServiceResponse<Device> { Message = ex.Message, Success = false };
             }
         }

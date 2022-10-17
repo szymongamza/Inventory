@@ -11,76 +11,68 @@ namespace Inventory.Server.Services.DeviceService
             _context = context;
         }
 
-        public async Task<ServiceResponse<Device>> CreateDevice(Device device)
+        public async Task<ServiceResponse<Device>> AddAsync(Device device)
         {
-            _context.Devices.Add(device);
-            await _context.SaveChangesAsync();
-            return new ServiceResponse<Device> { Data = device };
-        }
-        public async Task<ServiceResponse<Device>> DeleteDevice(int deviceId)
-        {
-            var response = new ServiceResponse<Device>();
-            Device device = null;
-            device = await _context.Devices.FirstOrDefaultAsync(d => d.DeviceId == deviceId);
-            if (device == null)
+            try
             {
-                response.Success = false;
-                response.Message = "This device does not exist.";
-            }
-            else
-            {
-                _context.Devices.Remove(device);
+                _context.Devices.Add(device);
                 await _context.SaveChangesAsync();
-
+                return new ServiceResponse<Device> { Data = device };
             }
-            return response;
+            catch (Exception ex)
+            {
+                return new ServiceResponse<Device> { Message = ex.Message, Success = false };
+            }
         }
-        public async Task<ServiceResponse<Device>> PutDevice(int deviceId, Device deviceIn)
+        public async Task<ServiceResponse<Device>> DeleteAsync(int deviceId)
         {
-            var response = new ServiceResponse<Device>();
-            Device device = null;
-            device = await _context.Devices.FirstOrDefaultAsync(d => d.DeviceId == deviceId);
-            if (device == null)
+            var existingDevice = await _context.Devices.FirstOrDefaultAsync(d => d.DeviceId == deviceId);
+            if (existingDevice == null)
+                return new ServiceResponse<Device> { Message = "Device not found", Success = false };
+            try
             {
-                response.Success = false;
-                response.Message = "This device does not exist.";
-            }
-            else
-            {
-                device.Manufacturer = deviceIn.Manufacturer;
-                device.SerialNumber = deviceIn.SerialNumber;
-                device.Model = deviceIn.Model;
+                _context.Devices.Remove(existingDevice);
                 await _context.SaveChangesAsync();
-                response.Data = device;
-
+                return new ServiceResponse<Device> { Data = existingDevice };
             }
-            return response;
+            catch (Exception ex)
+            {
+                return new ServiceResponse<Device> { Message = ex.Message, Success = false };
+            }
+        }
+        public async Task<ServiceResponse<Device>> UpdateAsync(int deviceId, Device deviceIn)
+        {
+            var existingDevice = await _context.Devices.FirstOrDefaultAsync(d => d.DeviceId == deviceId);
+            if (existingDevice == null)
+                return new ServiceResponse<Device> { Message = "Device not found", Success = false };
+
+            existingDevice.Manufacturer = deviceIn.Manufacturer;
+            existingDevice.SerialNumber = deviceIn.SerialNumber;
+            existingDevice.Model = deviceIn.Model;
+            try
+            {
+                _context.Devices.Update(existingDevice);
+                await _context.SaveChangesAsync();
+                return new ServiceResponse<Device> { Data=existingDevice };
+            }
+            catch (Exception ex)
+            {
+                return new ServiceResponse<Device> { Message = ex.Message, Success = false };
+            }
         }
 
-        public async Task<ServiceResponse<Device>> GetDevice(int deviceId)
+        public async Task<ServiceResponse<Device>> FindByIdAsync(int deviceId)
         {
-            var response = new ServiceResponse<Device>();
-            Device device = null;
-            device = await _context.Devices.FirstOrDefaultAsync(d => d.DeviceId == deviceId);
-            if (device == null)
-            {
-                response.Success = false;
-                response.Message = "This device does not exist.";
-            }
-            else
-            {
-                response.Data = device;
-            }
-            return response;
+            var existingDevice = await _context.Devices.FirstOrDefaultAsync(d => d.DeviceId == deviceId);
+            if (existingDevice == null)
+                return new ServiceResponse<Device> { Message = "Device not found", Success = false };
+            return new ServiceResponse<Device> { Data = existingDevice };
         }
 
-        public async Task<ServiceResponse<List<Device>>> GetDevices()
+        public async Task<ServiceResponse<List<Device>>> ListAsync()
         {
-            var response = new ServiceResponse<List<Device>>();
-
-            response.Data = await _context.Devices.ToListAsync();
-
-            return response;
+            var devices = await _context.Devices.ToListAsync();
+            return new ServiceResponse<List<Device>> { Data = devices };
         }
     }
 }

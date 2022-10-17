@@ -9,6 +9,7 @@ namespace Inventory.Server.Mapping
         {
             CreateMap<SaveDepartmentResource, Department>();
             CreateMap<SaveRoomResource, Room>();
+            CreateMap<SaveDeviceResource, Device>();
         }
     }
 }

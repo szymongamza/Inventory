@@ -16,6 +16,11 @@ namespace Inventory.Server.Mapping
             CreateMap<ServiceResponse<List<Room>>, ServiceResponse<List<RoomResource>>>();
             CreateMap<ServiceResponse<Room>, ServiceResponse<RoomResource>>();
 
+            CreateMap<Device, DeviceResource>();
+            CreateMap<ServiceResponse<List<Device>>, ServiceResponse<List<DeviceResource>>>();
+            CreateMap<ServiceResponse<Device>, ServiceResponse<DeviceResource>>();
+
+
 
         }
     }

@@ -9,5 +9,6 @@ namespace Inventory.Server.Services.DepartmentService
         Task<ServiceResponse<Department>> UpdateAsync(int departmentId, Department departmentIn);
         Task<ServiceResponse<Department>> FindByIdAsync(int departmentId);
         Task<ServiceResponse<List<Department>>> ListAsync();
+        Task<ServiceResponse<List<Room>>> ListOfRoomsAsync(int departmentId);
     }
 }

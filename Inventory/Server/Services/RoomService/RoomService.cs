@@ -15,7 +15,6 @@ namespace Inventory.Server.Services.RoomService
         {
             try
             {
-                Console.WriteLine("DEBUG");
                 _context.Rooms.Add(room);
                 await _context.SaveChangesAsync();
                 return new ServiceResponse<Room> { Data = room };
@@ -74,18 +73,19 @@ namespace Inventory.Server.Services.RoomService
             return new ServiceResponse<Room> { Data = existingRoom };
         }
 
-        public async Task<ServiceResponse<List<Room>>> FindAllByDepartmentId(int departmentId)
-        {
-            var existingRoom = await _context.Rooms.Where(d => d.DepartmentId == departmentId).ToListAsync();
-            if (existingRoom == null)
-                return new ServiceResponse<List<Room>> { Message = "Room not found", Success = false };
-            return new ServiceResponse<List<Room>> { Data = existingRoom };
-        }
-
         public async Task<ServiceResponse<List<Room>>> ListAsync()
         {
             var rooms = await _context.Rooms.ToListAsync();
+            if(!rooms.Any())
+                return new ServiceResponse<List<Room>> { Message = "There are no rooms", Success = false };
             return new ServiceResponse<List<Room>> { Data = rooms };
+        }
+        public async Task<ServiceResponse<List<Device>>> ListOfDevicesAsync(int roomId)
+        {
+            var devices = await _context.Devices.Where(d => d.RoomId == roomId).ToListAsync();
+            if (!devices.Any())
+                return new ServiceResponse<List<Device>> { Message = "There are no devices or there is no such room", Success = false };
+            return new ServiceResponse<List<Device>> { Data = devices };
         }
     }
 }

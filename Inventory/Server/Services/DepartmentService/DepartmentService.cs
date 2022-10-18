@@ -80,7 +80,16 @@ namespace Inventory.Server.Services.DepartmentService
         public async Task<ServiceResponse<List<Department>>> ListAsync()
         {
             var departments = await _context.Departments.ToListAsync();
+            if(!departments.Any())
+                return new ServiceResponse<List<Department>> { Message = "There are no departments", Success = false };
             return new ServiceResponse<List<Department>> { Data = departments };
+        }    
+        public async Task<ServiceResponse<List<Room>>> ListOfRoomsAsync(int departmentId)
+        {
+            var rooms = await _context.Rooms.Where(d => d.DepartmentId == departmentId).ToListAsync();
+            if (!rooms.Any())
+                return new ServiceResponse<List<Room>> { Message = "There are no rooms or there is no such department", Success = false };
+            return new ServiceResponse<List<Room>> { Data = rooms };
         }
     }
 }

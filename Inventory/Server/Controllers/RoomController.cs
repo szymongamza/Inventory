@@ -35,18 +35,6 @@ namespace Inventory.Server.Controllers
             return Ok(newResult);
         }
 
-        [HttpGet("{departmentId?}")]
-        public async Task<ActionResult<ServiceResponse<RoomResource>>> GetAsyncByDepartmentId(int? departmentId)
-        {
-            if (!ModelState.IsValid)
-                return BadRequest(ModelState.GetErrorMessages());
-            var result = await _roomService.FindAllByDepartmentId(departmentId);
-            if (!result.Success)
-                return BadRequest(result.Message);
-            var newResult = _mapper.Map<ServiceResponse<List<Room>>, ServiceResponse<List<RoomResource>>>(result);
-            return Ok(newResult);
-        }
-
         // GET api/Room/5
         [HttpGet("{roomId}")]
         public async Task<ActionResult<ServiceResponse<RoomResource>>> GetAsync(int roomId)
@@ -57,6 +45,19 @@ namespace Inventory.Server.Controllers
             if (!result.Success)
                 return BadRequest(result.Message);
             var newResult = _mapper.Map<ServiceResponse<Room>, ServiceResponse<RoomResource>>(result);
+            return Ok(newResult);
+        }
+
+        //GET api/Room/5/devices
+        [HttpGet("{roomId}/devices")]
+        public async Task<ActionResult<ServiceResponse<List<DeviceResource>>>> GetRoomDevicesAsync(int roomId)
+        {
+            if (!ModelState.IsValid)
+                return BadRequest(ModelState.GetErrorMessages());
+            var result = await _roomService.ListOfDevicesAsync(roomId);
+            if (!result.Success)
+                return BadRequest(result.Message);
+            var newResult = _mapper.Map<ServiceResponse<List<Device>>, ServiceResponse<List<DeviceResource>>>(result);
             return Ok(newResult);
         }
 

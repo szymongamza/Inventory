@@ -21,7 +21,7 @@ namespace Inventory.Server.Controllers
 
         // GET: api/Device
         [HttpGet]
-        public async Task<ActionResult<ServiceResponse<List<Device>>>> GetDevices()
+        public async Task<ActionResult<ServiceResponse<List<Device>>>> GetDevicesAsync()
         {
             if(!ModelState.IsValid)
                 return BadRequest(ModelState.GetErrorMessages());
@@ -34,7 +34,7 @@ namespace Inventory.Server.Controllers
 
         // GET api/Device/5
         [HttpGet("{deviceId}")]
-        public async Task<ActionResult<ServiceResponse<DeviceResource>>> GetAsync(int deviceId)
+        public async Task<ActionResult<ServiceResponse<DeviceResource>>> GetDeviceByIdAsync(int deviceId)
         {
             if (!ModelState.IsValid)
                 return BadRequest(ModelState.GetErrorMessages());
@@ -44,7 +44,18 @@ namespace Inventory.Server.Controllers
             var newResult = _mapper.Map<ServiceResponse<Device>, ServiceResponse<DeviceResource>>(result);
             return Ok(newResult);
         }
-
+        [HttpGet("QrCode/{qrCode}")]
+        public async Task<ActionResult<ServiceResponse<DeviceResource>>> GetDeviceByQrCodeAsync(string qrCode)
+        {
+            if (!ModelState.IsValid)
+                return BadRequest(ModelState.GetErrorMessages());
+            var result = await _deviceService.FindByQrCodeAsync(qrCode);
+            if (!result.Success)
+                return BadRequest(result.Message);
+            var newResult = _mapper.Map<ServiceResponse<Device>, ServiceResponse<DeviceResource>>(result);
+            return Ok(newResult);
+        }
+        
         // POST api/Device
         [HttpPost]
         public async Task<ActionResult<ServiceResponse<DeviceResource>>> PostAsync([FromBody] SaveDeviceResource resource)

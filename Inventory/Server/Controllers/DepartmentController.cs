@@ -22,7 +22,7 @@ namespace Inventory.Server.Controllers
 
         // GET: api/Department
         [HttpGet]
-        public async Task<ActionResult<ServiceResponse<List<DepartmentResource>>>> GetAllAsync()
+        public async Task<ActionResult<ServiceResponse<List<DepartmentResource>>>> GetDepartmentsAsync()
         {
             if (!ModelState.IsValid)
                 return BadRequest(ModelState.GetErrorMessages());
@@ -35,7 +35,7 @@ namespace Inventory.Server.Controllers
 
         // GET api/Department/5
         [HttpGet("{departmentId}")]
-        public async Task<ActionResult<ServiceResponse<DepartmentResource>>> GetAsync(int departmentId)
+        public async Task<ActionResult<ServiceResponse<DepartmentResource>>> GetDepartmentByIdAsync(int departmentId)
         {
             if (!ModelState.IsValid)
                 return BadRequest(ModelState.GetErrorMessages());
@@ -48,7 +48,7 @@ namespace Inventory.Server.Controllers
 
         //GET api/Department/5/rooms
         [HttpGet("{departmentId}/rooms")]
-        public async Task<ActionResult<ServiceResponse<List<RoomResource>>>> GetRoomsAsync(int departmentId)
+        public async Task<ActionResult<ServiceResponse<List<RoomResource>>>> GetRoomsByDeptIdAsync(int departmentId)
         {
             if (!ModelState.IsValid)
                 return BadRequest(ModelState.GetErrorMessages());

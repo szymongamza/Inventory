@@ -9,5 +9,6 @@ namespace Inventory.Server.Services.DeviceService
         Task<ServiceResponse<Device>> UpdateAsync(int deviceId, Device deviceIn);
         Task<ServiceResponse<Device>> FindByIdAsync(int deviceId);
         Task<ServiceResponse<List<Device>>> ListAsync();
+        Task<ServiceResponse<Device>> FindByQrCodeAsync(string qrCode);
     }
 }

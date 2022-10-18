@@ -80,5 +80,13 @@ namespace Inventory.Server.Services.DeviceService
             var devices = await _context.Devices.ToListAsync();
             return new ServiceResponse<List<Device>> { Data = devices };
         }
+
+        public async Task<ServiceResponse<Device>> FindByQrCodeAsync(string qrCode)
+        {
+            var existingDevice = await _context.Devices.FirstOrDefaultAsync(d => d.QrCode == qrCode);
+            if (existingDevice == null)
+                return new ServiceResponse<Device> { Message = "Device not found", Success = false };
+            return new ServiceResponse<Device> { Data = existingDevice };
+        }
     }
 }

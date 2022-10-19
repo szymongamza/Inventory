@@ -1,6 +1,6 @@
 ﻿using AutoMapper;
 using Inventory.Server.Resources;
-using Inventory.Shared;
+using Inventory.Server.Services;
 
 namespace Inventory.Server.Mapping
 {

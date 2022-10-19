@@ -1,4 +1,4 @@
-﻿using Inventory.Shared;
+﻿using Inventory.Server.Entity;
 using Microsoft.EntityFrameworkCore;
 
 namespace Inventory.Server.Data

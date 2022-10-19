@@ -1,5 +1,4 @@
-﻿using Inventory.Shared;
-
+﻿
 namespace Inventory.Server.Services.DeviceService
 {
     public interface IDeviceService

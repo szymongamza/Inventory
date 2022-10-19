@@ -1,7 +1,7 @@
 ﻿using Inventory.Server.Services.DepartmentService;
 using Inventory.Server.Resources;
 using AutoMapper;
-using Inventory.Shared;
+using Inventory.Server.Services;
 using Microsoft.AspNetCore.Mvc;
 using Inventory.Server.Extensions;
 

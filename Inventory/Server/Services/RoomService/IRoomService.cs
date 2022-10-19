@@ -1,5 +1,4 @@
-﻿using Inventory.Shared;
-
+﻿
 namespace Inventory.Server.Services.RoomService
 {
     public interface IRoomService

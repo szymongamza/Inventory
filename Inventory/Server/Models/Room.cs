@@ -1,4 +1,4 @@
-﻿using Inventory.Shared;
+﻿using Inventory.Server.Entity;
 
 namespace Inventory.Server.Models
 {

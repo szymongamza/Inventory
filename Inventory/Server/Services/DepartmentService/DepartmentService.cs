@@ -1,5 +1,4 @@
 ﻿using Inventory.Server.Data;
-using Inventory.Shared;
 
 namespace Inventory.Server.Services.DepartmentService
 {
